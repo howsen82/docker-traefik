@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  traefik:
+    restart: unless-stopped
+    image: traefik:3.0
+    networks:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./acme.json:/acme.json
+      - ./traefik.yml:/traefik.yml
+      - ./traefik_api.yml:/traefik_api.yml
+
+networks:
+  web:
+    external: true
+
+# Run command
+# docker run --rm httpd htpasswd -nb admin geheim
+# docker network create web
+# docker-compose up -d
+
+# Uninstall
+# docker-compose down -v

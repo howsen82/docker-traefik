@@ -1,0 +1,19 @@
+http:
+  middlewares:
+    simpleAuth:
+      basicAuth:
+        users:
+          - 'admin:$apr1$WhgC8V99$DjZKbjVT8idJK/B7HSgwj/'
+  routers:
+    api:
+      rule: Host(`localhost`)
+      entrypoints:
+        - websecure
+      middlewares:
+        - simpleAuth
+      service: api@internal
+      tls:
+        certResolver: lets-encrypt
+
+# Generate htpasswd
+# docker run --rm httpd htpasswd -nb admin geheim
